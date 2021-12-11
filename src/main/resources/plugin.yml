@@ -1,0 +1,11 @@
+name: AltHelper
+version: @version@
+main: tk.booky.althelper.AltHelperMain
+api-version: 1.16
+load: STARTUP
+authors: [ booky10 ]
+website: https://booky.tk/
+commands:
+  althelper:
+    permission: althelper.use
+    usage: 'Usage: /<command> [all|player|address]'
