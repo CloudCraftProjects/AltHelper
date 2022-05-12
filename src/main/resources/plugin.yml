@@ -1,12 +1,13 @@
 name: AltHelper
 version: ${version}
-main: tk.booky.althelper.AltHelperMain
+main: dev.booky.alts.AltHelperMain
 api-version: 1.18
 load: STARTUP
 authors: [ booky10 ]
-website: https://booky.tk/
+website: https://booky.dev/
 
 commands:
   althelper:
     permission: althelper.use
-    usage: 'Usage: /<command> [all|player|address]'
+    aliases: [ alts ]
+    usage: 'Usage: /<command> [all|<player>|<ip address>]'
