@@ -2,19 +2,21 @@ plugins {
     id("java-library")
     id("maven-publish")
 
-    id("net.minecrell.plugin-yml.bukkit") version "0.6.0"
-    id("xyz.jpenilla.run-paper") version "2.3.0"
+    alias(libs.plugins.pluginyml.bukkit)
+    alias(libs.plugins.runtask.paper)
 }
 
 group = "dev.booky"
 version = "3.0.0"
 
+val plugin: Configuration by configurations.creating { isTransitive = false }
+
 repositories {
-    maven("https://repo.papermc.io/repository/maven-public/")
+    maven("https://repo.cloudcraftmc.de/public/")
 }
 
 dependencies {
-    compileOnly("io.papermc.paper:paper-api:1.20.6-R0.1-SNAPSHOT")
+    compileOnly(libs.paper.api)
 }
 
 java {
@@ -46,6 +48,7 @@ bukkit {
 tasks {
     runServer {
         minecraftVersion("1.20.6")
+        pluginJars.from(plugin.resolve())
     }
 
     withType<JavaCompile> {
