@@ -9,6 +9,7 @@ import dev.booky.alts.util.IpHexUtil;
 import dev.booky.alts.util.MigrationUtil;
 import dev.booky.alts.util.WildcardMatcher;
 import dev.booky.alts.util.WrappedYamlConfig;
+import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -26,6 +27,11 @@ public final class AltHelperMain extends JavaPlugin {
 
     private final SetMultimap<UUID, InetAddress> data = HashMultimap.create();
     private WrappedYamlConfig dataConfig;
+
+    @Override
+    public void onLoad() {
+        new Metrics(this, 22525);
+    }
 
     @Override
     public void onEnable() {

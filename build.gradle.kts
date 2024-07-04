@@ -4,6 +4,7 @@ plugins {
 
     alias(libs.plugins.pluginyml.bukkit)
     alias(libs.plugins.runtask.paper)
+    alias(libs.plugins.shadow)
 }
 
 group = "dev.booky"
@@ -17,6 +18,8 @@ repositories {
 
 dependencies {
     compileOnly(libs.paper.api)
+
+    implementation(libs.bstats)
 }
 
 java {
@@ -58,5 +61,13 @@ tasks {
     withType<Jar> {
         // no spigot mappings are used, disable useless remapping step
         manifest.attributes("paperweight-mappings-namespace" to "mojang")
+    }
+
+    shadowJar {
+        relocate("org.bstats", "${project.group}.alts.bstats")
+    }
+
+    assemble {
+        dependsOn(shadowJar)
     }
 }
