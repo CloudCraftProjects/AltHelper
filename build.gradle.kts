@@ -1,42 +1,59 @@
 plugins {
     id("java-library")
     id("maven-publish")
-    id("xyz.jpenilla.run-paper") version "1.0.6"
+
+    id("net.minecrell.plugin-yml.bukkit") version "0.6.0"
+    id("xyz.jpenilla.run-paper") version "2.3.0"
 }
 
 group = "dev.booky"
 version = "3.0.0"
 
 repositories {
-    maven("https://papermc.io/repo/repository/maven-public/")
+    maven("https://repo.papermc.io/repository/maven-public/")
 }
 
 dependencies {
-    api("io.papermc.paper:paper-api:1.18.2-R0.1-SNAPSHOT")
+    compileOnly("io.papermc.paper:paper-api:1.20.6-R0.1-SNAPSHOT")
 }
 
 java {
     withSourcesJar()
-
-    toolchain.languageVersion.set(JavaLanguageVersion.of(17))
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+        vendor = JvmVendorSpec.ADOPTIUM
+    }
 }
 
 publishing {
     publications.create<MavenPublication>("maven") {
-        artifactId = project.name.toLowerCase()
+        artifactId = project.name.lowercase()
         from(components["java"])
     }
 }
 
+bukkit {
+    main = "$group.alts.AltHelperMain"
+    apiVersion = "1.20"
+    authors = listOf("booky10")
+    commands.register("althelper") {
+        permission = "althelper.use"
+        aliases = listOf("alts")
+        usage = "Usage: /<command> [all|<player>|<ip address>]"
+    }
+}
+
 tasks {
-    processResources {
-        inputs.property("version", project.version)
-        filesMatching("plugin.yml") {
-            expand("version" to project.version)
-        }
+    runServer {
+        minecraftVersion("1.20.6")
     }
 
-    runServer {
-        minecraftVersion.set("1.18.2")
+    withType<JavaCompile> {
+        options.encoding = Charsets.UTF_8.name()
+    }
+
+    withType<Jar> {
+        // no spigot mappings are used, disable useless remapping step
+        manifest.attributes("paperweight-mappings-namespace" to "mojang")
     }
 }
