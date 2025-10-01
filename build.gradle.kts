@@ -8,7 +8,7 @@ plugins {
 }
 
 group = "dev.booky"
-version = "3.0.0"
+version = "3.1.0"
 
 val plugin: Configuration by configurations.creating { isTransitive = false }
 
@@ -39,7 +39,7 @@ publishing {
 
 bukkit {
     main = "$group.alts.AltHelperMain"
-    apiVersion = "1.20"
+    apiVersion = "1.21.8"
     authors = listOf("booky10")
     commands.register("althelper") {
         permission = "althelper.use"
@@ -50,7 +50,7 @@ bukkit {
 
 tasks {
     runServer {
-        minecraftVersion("1.20.6")
+        minecraftVersion("1.21.9")
         pluginJars.from(plugin.resolve())
     }
 
